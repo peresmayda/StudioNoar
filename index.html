@@ -184,7 +184,7 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .plist li:first-child .prow{padding-top:8px}
 .prow:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 .prow .pname{grid-column:1/7;font-weight:600;font-size:var(--t-title);line-height:1;letter-spacing:-.05em;transition:transform .6s var(--ease)}
-.prow .thumb{grid-column:7/10;aspect-ratio:4/3;display:block}
+.prow .thumb{grid-column:7/10;aspect-ratio:4/3;display:block;width:100%;height:auto;object-fit:cover}
 .prow .pmeta{grid-column:10/13;display:flex;flex-direction:column;gap:4px;font-size:var(--t-small);line-height:1.35;height:100%}
 .prow .more{margin-top:auto;padding-top:12px;display:inline-flex;align-items:center;gap:6px;font-weight:500;text-decoration:underline;text-underline-offset:3px}
 .prow .more svg{width:11px;height:11px;transition:transform .5s var(--ease)}
@@ -210,6 +210,25 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .project dt{font-size:12px;opacity:.75}
 .project dd{font-weight:500;letter-spacing:-.015em}
 body.lock{overflow:hidden}
+/* estudo de caso (projetos com fotos reais) */
+.case{padding-block:clamp(8px,2vw,24px) var(--s-section)}
+.case-head{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s-gap);row-gap:clamp(28px,3vw,48px);padding-bottom:var(--s-head)}
+.case-head h3{grid-column:1/7;font-weight:700;font-size:var(--t-display);letter-spacing:-.06em;line-height:.9}
+.case-meta{grid-column:7/13;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-gap);align-self:end;border-top:1px solid currentColor;padding-top:12px}
+.case-meta dt{font-size:12px;opacity:.7}
+.case-meta dd{font-weight:500}
+.case-text{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s-gap)}
+.case-text > div:first-child{grid-column:1/6}
+.case-text > div:last-child{grid-column:7/12}
+.case-text h4{font-size:var(--t-small);font-weight:500;margin-bottom:10px}
+.case-text p{font-size:var(--t-lead);font-weight:500;line-height:1.22;letter-spacing:-.025em}
+.gallery{display:grid;gap:var(--s-gap)}
+.gallery figure{margin:0;overflow:hidden;background:var(--stone)}
+.gallery img{display:block;width:100%;height:auto}
+.gallery .pair{display:flex;gap:var(--s-gap);align-items:flex-start}
+.gallery .pair > :first-child{flex:var(--a) 1 0;min-width:0}
+.gallery .pair > :last-child{flex:var(--b) 1 0;min-width:0}
+
 
 
 /* ========== 6. Contato: dois painéis, como a abertura ========== */
@@ -304,6 +323,10 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
   .mbody .txt p{font-size:22px}
   .mstack{gap:0}
   .menu{--off:8px}
+  .case-head h3,.case-meta,.case-text > div:first-child,.case-text > div:last-child{grid-column:1/-1}
+  .case-text{row-gap:24px}
+  .gallery .pair{flex-direction:column}
+  .gallery .pair > :first-child,.gallery .pair > :last-child{flex:none;width:100%}
   .project{min-height:auto}
   .project h3,.project .meta,.project .desc,.project .thumbs,.project .hero-img{grid-column:1/-1}
   .project header{row-gap:10px}
@@ -439,10 +462,15 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
   <!-- 5. PROJETOS: clique para ver o projeto completo -->
   <section class="wrap section" id="projetos" aria-labelledby="proj-t">
     <div class="sec-head">
-      <div class="sec-top"><h2 id="proj-t">Projetos</h2><span aria-hidden="true">(02)</span></div>
+      <div class="sec-top"><h2 id="proj-t">Projetos</h2><span aria-hidden="true">(03)</span></div>
       <p class="say fade">Alguns trabalhos recentes, de identidade completa a ciclos de conteúdo.</p>
     </div>
     <ol class="plist sec-body fade">
+      <li><button class="prow" type="button" aria-haspopup="dialog" data-open="proj-ewm">
+        <span class="pname">EWM</span>
+        <img class="thumb" src="img/ewm/capa.jpg" alt="" width="900" height="600" loading="lazy">
+        <span class="pmeta"><span>Curso de inglês</span><span>Identidade de marca</span><span>2024</span><span class="more">Ver projeto <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6"/></svg></span></span>
+      </button></li>
       <li><button class="prow" type="button" aria-haspopup="dialog" data-open="proj-1">
         <span class="pname">Sabor e Cia.</span>
         <span class="ht thumb" style="--bg:var(--blue);--c:var(--yellow);--s:9px;--lc:var(--cream)" aria-hidden="true"></span>
@@ -492,6 +520,26 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
 </footer>
 
 <!-- Projetos completos (abrem ao clicar) -->
+  <dialog class="pdialog" id="proj-ewm" style="--bg:var(--cream)" aria-label="EWM">
+    <div class="pbar"><span class="small">EWM, 2024</span><button class="pclose" type="button">Fechar</button></div>
+    <article class="case wrap">
+      <header class="case-head">
+        <h3>EWM</h3>
+        <dl class="case-meta"><div><dt>Cliente</dt><dd>Curso de inglês</dd></div><div><dt>Serviço</dt><dd>Identidade de marca</dd></div><div><dt>Ano</dt><dd>2024</dd></div></dl>
+        <div class="case-text">
+          <div><h4>Desafio</h4><p>Nesse projeto, trabalhei em conjunto para construir o direcionamento criativo, estratégico e visual de um curso de inglês que tinha como objetivo mostrar que aprender inglês pode ser leve, divertido e “sem pressão”.</p></div>
+          <div><h4>Solução</h4><p>A escolha foi trabalhar uma identidade vibrante, envolvente e acolhedora, porque aprender inglês pode ser acessível, agradável e sem pressão. Com isso, trouxemos a expressão de uma metodologia descontraída e amigável, sem perder o profissionalismo.</p></div>
+        </div>
+      </header>
+      <div class="gallery">
+        <figure class="full"><img src="img/ewm/01-outdoor.jpg" alt="Cartaz de rua da EWM: “Conversar é o primeiro passo para aprender.”" width="2000" height="1333" loading="lazy" decoding="async"></figure>
+        <div class="pair" style="--a:1.404;--b:1.293"><figure><img src="img/ewm/02-cartoes.jpg" alt="Cartões de visita da EWM com setas coloridas" width="2000" height="1425" loading="lazy" decoding="async"></figure><figure><img src="img/ewm/03-app.jpg" alt="Ícone do app da EWM na tela de um celular" width="1368" height="1058" loading="lazy" decoding="async"></figure></div>
+        <figure class="full"><img src="img/ewm/04-site.jpg" alt="Site da EWM aberto num notebook" width="2000" height="1333" loading="lazy" decoding="async"></figure>
+        <div class="pair" style="--a:1.28;--b:.667"><figure><img src="img/ewm/05-cadernos.jpg" alt="Cadernos e papelaria da EWM sobre fundo amarelo" width="2000" height="1563" loading="lazy" decoding="async"></figure><figure><img src="img/ewm/06-camiseta.jpg" alt="Camiseta “English Always With Me”" width="1333" height="2000" loading="lazy" decoding="async"></figure></div>
+        <figure class="full"><img src="img/ewm/07-calendario.jpg" alt="Calendário de mesa “English Calendar”" width="2000" height="1500" loading="lazy" decoding="async"></figure>
+      </div>
+    </article>
+  </dialog>
   <dialog class="pdialog" id="proj-1" style="--bg:var(--yellow)" aria-label="Sabor e Cia.">
     <div class="pbar"><span class="small">Projeto 01</span><button class="pclose" type="button">Fechar</button></div>
     <article class="project wrap">
