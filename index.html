@@ -109,10 +109,10 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 @keyframes spin{to{transform:rotate(360deg)}}
 .panel-img .ht{position:absolute;inset:0}
 /* abertura: fotos dos projetos se alternam */
-.reel{position:absolute;inset:0;background:var(--stone);transition:transform 1.2s var(--ease)}
+.reel{position:absolute;inset:0;background:var(--stone)}
 .reel figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.2s var(--ease)}
 .reel figure.on{opacity:1;z-index:1}
-.reel img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 6s linear}
+.reel img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 6s linear,scale 1.2s var(--ease)}
 .reel figure.on img{transform:scale(1)}
 .reel figcaption{position:absolute;left:clamp(16px,1.8vw,26px);bottom:clamp(14px,1.6vw,22px);display:flex;gap:8px;align-items:center;
   background:var(--cream);color:var(--ink);border-radius:999px;padding:6px 14px 7px;font-size:var(--t-small);font-weight:500;line-height:1.2;text-decoration:none}
@@ -228,7 +228,7 @@ body.lock{overflow:hidden}
 .thumb-frame img,.gallery img,.svc-detail .ht,.prow .ht.thumb{transition:transform 1s var(--ease)}
 .floater{transition:scale .9s var(--ease)}
 @media (hover:hover){
-  .panel-img:hover .reel{transform:scale(1.04)}
+  .panel-img:hover .reel img{scale:1.04}
   .prow:hover .thumb-frame img,.prow:hover .ht.thumb{transform:scale(1.06)}
   .gallery figure:hover img{transform:scale(1.04)}
   .svc-detail:hover .ht{transform:scale(1.03)}
