@@ -116,9 +116,7 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .reel figure.on img{transform:scale(1)}
 .reel figcaption{position:absolute;left:clamp(16px,1.8vw,26px);bottom:clamp(14px,1.6vw,22px);display:flex;gap:8px;align-items:center;
   background:var(--cream);color:var(--ink);border-radius:999px;padding:6px 14px 7px;font-size:var(--t-small);font-weight:500;line-height:1.2;text-decoration:none}
-.reel-dots{position:absolute;z-index:2;right:clamp(16px,1.8vw,26px);bottom:clamp(18px,1.9vw,26px);display:flex;gap:6px}
-.reel-dots i{width:18px;height:3px;background:color-mix(in srgb,var(--cream) 50%,transparent);transition:background .4s var(--ease)}
-.reel-dots i.on{background:var(--cream)}
+@media (min-width:901px){.reel figcaption{padding:4px 10px 5px;font-size:11px;letter-spacing:.01em}}
 .js .panel{animation:panel-in 1s var(--ease) both}
 .js .panel-img{animation-delay:.12s}
 @keyframes panel-in{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
@@ -414,7 +412,6 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
         <figure><img src="img/ewm/02-cartoes.jpg" alt="Cartões de visita da EWM" loading="lazy" decoding="async"><figcaption>EWM, identidade de marca</figcaption></figure>
         <figure><img src="img/ewm/06-camiseta.jpg" alt="Camiseta da EWM" loading="lazy" decoding="async"><figcaption>EWM, identidade de marca</figcaption></figure>
       </div>
-      <div class="reel-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
   </section>
 
@@ -638,9 +635,9 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
 // Abertura: troca a foto a cada 4,5 s; pausa quando a aba não está visível ou quando o mouse está em cima
 (() => {
   const reel = document.querySelector('.reel'); if (!reel) return;
-  const figs = [...reel.querySelectorAll('figure')], dots = [...document.querySelectorAll('.reel-dots i')];
+  const figs = [...reel.querySelectorAll('figure')];
   let i = 0, timer = 0;
-  const show = n => { i = (n + figs.length) % figs.length; figs.forEach((f, k) => f.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); };
+  const show = n => { i = (n + figs.length) % figs.length; figs.forEach((f, k) => f.classList.toggle('on', k === i)); };
   const next = () => { const f = figs[(i + 1) % figs.length].querySelector('img'); if (f.loading === 'lazy') f.loading = 'eager'; show(i + 1); };
   const play = () => { clearInterval(timer); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(next, 4500); };
   show(0); play();
