@@ -109,7 +109,7 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 @keyframes spin{to{transform:rotate(360deg)}}
 .panel-img .ht{position:absolute;inset:0}
 /* abertura: fotos dos projetos se alternam */
-.reel{position:absolute;inset:0;background:var(--stone)}
+.reel{position:absolute;inset:0;background:var(--stone);transition:transform 1.2s var(--ease)}
 .reel figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.2s var(--ease)}
 .reel figure.on{opacity:1;z-index:1}
 .reel img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 6s linear}
@@ -160,6 +160,7 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .svc-row[aria-current="true"] .thumb{transform:scale(1.08)}
 .svc-row:focus-visible{outline:2px solid var(--yellow);outline-offset:4px}
 .svc-detail{grid-column:9/13;position:relative;display:grid;align-self:stretch}
+.svc-detail{overflow:hidden}
 .svc-detail .d{grid-area:1/1;display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(12px);transition:opacity .45s var(--ease),transform .6s var(--ease);pointer-events:none}
 .svc-detail .d.on{opacity:1;transform:none;pointer-events:auto}
 .svc-detail .ht{aspect-ratio:4/3;width:100%;margin-bottom:auto}
@@ -196,6 +197,8 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .prow:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 .prow .pname{grid-column:1/7;font-weight:600;font-size:var(--t-title);line-height:1;letter-spacing:-.05em;transition:transform .6s var(--ease)}
 .prow .thumb{grid-column:7/10;aspect-ratio:4/3;display:block;width:100%;height:auto;object-fit:cover}
+.thumb-frame{overflow:hidden}
+.thumb-frame img{display:block;width:100%;height:100%;object-fit:cover}
 .prow .pmeta{grid-column:10/13;display:flex;flex-direction:column;gap:4px;font-size:var(--t-small);line-height:1.35;height:100%}
 .prow .more{margin-top:auto;padding-top:12px;display:inline-flex;align-items:center;gap:6px;font-weight:500;text-decoration:underline;text-underline-offset:3px}
 .prow .more svg{width:11px;height:11px;transition:transform .5s var(--ease)}
@@ -221,6 +224,16 @@ p,li,dd,.svc-detail p,.svc-more p{text-wrap:pretty}
 .project dt{font-size:12px;opacity:.75}
 .project dd{font-weight:500;letter-spacing:-.015em}
 body.lock{overflow:hidden}
+/* zoom leve nas fotos ao passar o mouse (só em telas com mouse) */
+.thumb-frame img,.gallery img,.svc-detail .ht,.prow .ht.thumb{transition:transform 1s var(--ease)}
+.floater{transition:scale .9s var(--ease)}
+@media (hover:hover){
+  .panel-img:hover .reel{transform:scale(1.04)}
+  .prow:hover .thumb-frame img,.prow:hover .ht.thumb{transform:scale(1.06)}
+  .gallery figure:hover img{transform:scale(1.04)}
+  .svc-detail:hover .ht{transform:scale(1.03)}
+  .floater:hover{scale:1.05}
+}
 /* estudo de caso (projetos com fotos reais) */
 .case{padding-block:clamp(8px,2vw,24px) var(--s-section)}
 .case-head{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s-gap);row-gap:clamp(28px,3vw,48px);padding-bottom:var(--s-head)}
@@ -490,7 +503,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
     <ol class="plist sec-body fade">
       <li><button class="prow" type="button" aria-haspopup="dialog" data-open="proj-ewm">
         <span class="pname">EWM</span>
-        <img class="thumb" src="img/ewm/capa.jpg" alt="" width="900" height="600" loading="lazy">
+        <span class="thumb thumb-frame"><img src="img/ewm/capa.jpg" alt="" width="900" height="600" loading="lazy"></span>
         <span class="pmeta"><span>Curso de inglês</span><span>Identidade de marca</span><span>2024</span><span class="more">Ver projeto <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6"/></svg></span></span>
       </button></li>
       <li><button class="prow" type="button" aria-haspopup="dialog" data-open="proj-1">
