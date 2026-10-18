@@ -527,13 +527,12 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
   <section class="contact" id="contato" aria-labelledby="cont-t">
     <div class="panel c-left">
       <h2 id="cont-t" class="rise"><span>Vamos criar juntos?</span></h2>
-      <p class="intro">Preencha o formulário e a gente entra em contato para marcar uma conversa.</p>
+      <p class="intro">Preencha, envie pelo WhatsApp e a gente marca uma conversa.</p>
     </div>
     <div class="panel c-right">
       <form id="form" novalidate>
       <div class="field"><label for="nome">Seu nome</label><input id="nome" name="nome" autocomplete="name" placeholder="Como podemos te chamar" required></div>
       <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@seunegocio.com" required></div>
-      <div class="field"><label for="whats">WhatsApp</label><input id="whats" name="whatsapp" type="tel" autocomplete="tel" placeholder="(21) 9 0000-0000"></div>
       <div class="field"><label for="arroba">@ do seu negócio</label><input id="arroba" name="instagram" placeholder="@suacasa"></div>
       <fieldset>
         <legend class="legend">O que você procura?</legend>
@@ -544,7 +543,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
           <label><input type="checkbox" name="interesse" value="Direção criativa"><span>Direção criativa</span></label>
         </div>
       </fieldset>
-      <button class="pill submit" type="submit">Enviar <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6"/></svg></button>
+      <button class="pill submit" type="submit">Enviar pelo WhatsApp <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6"/></svg></button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
     </div>
@@ -759,15 +758,21 @@ document.querySelectorAll('.pdialog').forEach(d => {
   d.addEventListener('close', () => document.body.classList.remove('lock'));
 });
 
-// Formulário: validação local. Para receber os envios, conecte a Jotform, Formspree ou similar.
+// Formulário: monta a mensagem e abre uma conversa no WhatsApp do estúdio
 document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target, st = f.querySelector('.status');
-  const nome = f.nome.value.trim(), email = f.email.value.trim();
+  const nome = f.nome.value.trim(), email = f.email.value.trim(), arroba = f.instagram.value.trim();
   if (!nome) { st.textContent = 'Falta o seu nome.'; f.nome.focus(); return; }
   if (!/^\S+@\S+\.\S+$/.test(email)) { st.textContent = 'Confira o e-mail: precisa ter @ e domínio.'; f.email.focus(); return; }
-  st.textContent = `Recebido, ${nome.split(' ')[0]}. A gente responde em breve.`;
-  f.reset();
+  const quer = [...f.querySelectorAll('input[name="interesse"]:checked')].map(i => i.value);
+  const linhas = ['Olá, Studio Noar! Vim pelo site.', `Nome: ${nome}`, `E-mail: ${email}`];
+  if (arroba) linhas.push(`@: ${arroba.startsWith('@') ? arroba : '@' + arroba}`);
+  if (quer.length) linhas.push(`Procuro: ${quer.join(', ')}`);
+  const url = 'https://wa.me/5522992132258?text=' + encodeURIComponent(linhas.join('\n'));
+  const w = window.open(url, '_blank');
+  if (w) w.opener = null; else location.href = url;
+  st.textContent = 'Abrimos o WhatsApp com a sua mensagem. É só apertar enviar por lá.';
 });
 </script>
 </body>
