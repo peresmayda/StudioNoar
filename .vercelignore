@@ -1,0 +1,5 @@
+# arquivos do repositório que não precisam ir para o site publicado
+README.md
+CLAUDE.md
+scripts
+.gitignore
