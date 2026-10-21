@@ -148,3 +148,30 @@ document.getElementById('form').addEventListener('submit', e => {
   if (w) w.opener = null; else location.href = url;
   st.textContent = 'Abrimos o WhatsApp com a sua mensagem. É só apertar enviar por lá.';
 });
+
+// Aproximação sob demanda, sem loop nem movimento ao rolar.
+(() => {
+  const dialog = document.getElementById('proj-duda');
+  const button = dialog.querySelector('.duda-play');
+  const browser = dialog.querySelector('.duda-browser');
+  const screen = dialog.querySelector('.duda-viewport img');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let animations = [];
+  function stop() {
+    animations.forEach(animation => animation.cancel());
+    animations = [];
+    button.textContent = 'Reproduzir aproximação';
+  }
+  button.addEventListener('click', () => {
+    if (animations.length) { stop(); return; }
+    const options = {duration: reduced.matches ? 500 : 6500, easing:'cubic-bezier(.32,.72,0,1)', fill:'none'};
+    animations = reduced.matches
+      ? [browser.animate([{opacity: .65}, {opacity: 1}], options)]
+      : [browser.animate([{transform:'perspective(1400px) rotateX(5deg) rotateY(-7deg)'},{transform:'perspective(1400px) rotateX(0) rotateY(0) scale(1.08)',offset:.3},{transform:'perspective(1400px) rotateX(0) rotateY(0) scale(1.08)',offset:.8},{transform:'perspective(1400px) rotateX(5deg) rotateY(-7deg)'}],options), screen.animate([{transform:'translateY(0)'},{transform:'translateY(0)',offset:.25},{transform:'translateY(-38%)',offset:.75},{transform:'translateY(0)'}],options)];
+    button.textContent = 'Parar aproximação';
+    Promise.all(animations.map(animation => animation.finished)).then(stop).catch(() => {});
+  });
+  dialog.addEventListener('close', stop);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
+  reduced.addEventListener('change', stop);
+})();

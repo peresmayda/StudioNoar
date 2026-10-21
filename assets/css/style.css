@@ -344,3 +344,22 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
   .reveal .w{color:var(--ink)}
   .reveal .w.q{color:var(--red)}
 }
+
+/* Duda Sodré: interface em uma vitrine de navegador. */
+.duda-showroom{background:#eee2d4;color:#493320;overflow:hidden}
+.duda-toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:clamp(20px,4vw,56px)}
+.duda-toolbar p{font-size:clamp(24px,3vw,44px);font-weight:600;letter-spacing:-.035em}
+.duda-play{flex-shrink:0}
+.duda-stage{padding:2% 9% 9%;overflow:hidden}
+.duda-browser{background:#f1e7db;border:1px solid #bca995;box-shadow:0 28px 64px #49332026;transform:perspective(1400px) rotateX(5deg) rotateY(-7deg);transform-origin:50% 35%}
+.duda-browser-bar{display:flex;align-items:center;gap:24px;padding:12px 18px;background:#faf5ef;border-bottom:1px solid #d6c6b5;font-size:12px}
+.duda-browser-bar>span:first-child{color:#a28770;font-size:9px;letter-spacing:3px}
+.duda-viewport{aspect-ratio:1.65;overflow:hidden}
+.duda-viewport img{display:block;width:100%;height:auto;transform-origin:50% 0}
+.duda-details{display:grid;grid-template-columns:1fr 1.25fr;gap:var(--s-gap);margin-block:var(--s-gap) 32px;align-items:center}
+.duda-details figure{margin:0;min-width:0}
+.duda-details img{width:100%;height:auto;display:block}
+.duda-details figcaption{font-size:14px;line-height:1.4;margin-top:12px}
+.duda-visit{margin-block:16px 32px}
+@media(max-width:700px){.duda-toolbar{align-items:flex-start;flex-direction:column}.duda-stage{padding:5% 5% 14%}.duda-browser-bar{font-size:10px;gap:10px;padding:9px}.duda-details{grid-template-columns:1fr;gap:32px}}
+@media(prefers-reduced-motion:reduce){.duda-browser{transform:none}}
