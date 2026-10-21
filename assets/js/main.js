@@ -161,21 +161,36 @@ document.getElementById('form').addEventListener('submit', e => {
     if (!screen.complete || !screen.naturalWidth) return;
     const width = stage.clientWidth, height = stage.clientHeight;
     const imageHeight = width * screen.naturalHeight / screen.naturalWidth;
-    // Cada parada é um centro de atenção da captura completa: abertura,
-    // objetivos, plano, apresentação, acompanhamento e fechamento.
-    const stops = [[0,1,.5],[0,1.14,.58],[0,1,.5],
-      [.20,1,.5],[.20,1.16,.54],[.20,1,.5],
-      [.35,1,.5],[.35,1.12,.5],[.35,1,.5],
-      [.46,1,.5],[.46,1.14,.64],[.46,1,.5],
-      [.66,1,.5],[.66,1.12,.52],[.66,1,.5],
-      [1,1,.5],[1,1.1,.5],[1,1,.5]];
-    const frames = stops.map(([progress, zoom, focus]) => {
-      const x = -width * (zoom - 1) * focus;
-      const y = -(imageHeight * zoom - height) * progress;
-      return {transform:`translate3d(${x}px, ${y}px, 0) scale(${zoom})`, easing:'cubic-bezier(.45,0,.2,1)'};
+    // Tempos em segundos; foco normalizado na captura: card, botão e letra.
+    // A ida leva 24s, e a volta direta ao topo leva apenas 4s.
+    const stops = [
+      [0, 0, 1, .5],
+      [1, .18, 1, .5],
+      [3, .18, 1.32, .32, .20], // Card de emagrecimento.
+      [4.5, .18, 1, .5],
+      [6, 0, 1, .5],
+      [7.5, 0, 1.48, .27, .103], // Botão de agendamento na abertura.
+      [9, 0, 1, .5],
+      [11, .24, 1, .5],
+      [12.5, .24, 1.4, .5, .262], // Tipografia de “Um plano que cabe na sua vida”.
+      [14, .24, 1, .5],
+      [16, .46, 1, .5],
+      [17.5, .46, 1.22, .65, .415], // Texto ao lado do retrato.
+      [19, .46, 1, .5],
+      [21, .66, 1.25, .66, .67], // Segundo formato de acompanhamento.
+      [22.5, .66, 1, .5],
+      [24, 1, 1, .5],
+      [28, 0, 1, .5]
+    ];
+    const frames = stops.map(([time, progress, zoom, focusX, focusY]) => {
+      const x = -width * (zoom - 1) * focusX;
+      const target = focusY === undefined
+        ? (imageHeight * zoom - height) * progress
+        : imageHeight * zoom * focusY - height / 2;
+      const y = -Math.max(0, Math.min(imageHeight * zoom - height, target));
+      return {offset:time / 28, transform:`translate3d(${x}px, ${y}px, 0) scale(${zoom})`, easing:'cubic-bezier(.45,0,.2,1)'};
     });
-    // Alternar evita um salto ao retornar ao início da captura.
-    animation = screen.animate(frames,{duration:42000,iterations:Infinity,direction:'alternate',fill:'both'});
+    animation = screen.animate(frames,{duration:28000,iterations:Infinity,fill:'both'});
     sync();
   }
   function sync() {
