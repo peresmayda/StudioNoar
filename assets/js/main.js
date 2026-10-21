@@ -150,9 +150,8 @@ document.getElementById('form').addEventListener('submit', e => {
 });
 
 // Percorre a página e aproxima diferentes composições. Toque ou espaço pausa.
-(() => {
-  const dialog = document.getElementById('proj-duda');
-  const stage = dialog.querySelector('.duda-showroom');
+document.querySelectorAll('.duda-showroom').forEach(stage => {
+  const dialog = stage.closest('dialog');
   const screen = stage.querySelector('img');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let animation, visible = false, paused = false;
@@ -163,7 +162,15 @@ document.getElementById('form').addEventListener('submit', e => {
     const imageHeight = width * screen.naturalHeight / screen.naturalWidth;
     // Tempos em segundos; foco normalizado na captura: card, botão e letra.
     // A ida leva 24s, e a volta direta ao topo leva apenas 4s.
-    const stops = [
+    const stops = stage.dataset.showroom === 'crv' ? [
+      [0,0,1,.5], [1,.14,1,.5],
+      [3,.14,1.32,.3,.21], [4.5,.14,1,.5],
+      [6,0,1,.5], [7.5,0,1.48,.26,.107], [9,0,1,.5],
+      [11,.12,1,.5], [12.5,.12,1.4,.44,.165], [14,.12,1,.5],
+      [16,.35,1,.5], [17.5,.35,1.24,.65,.36], [19,.35,1,.5],
+      [21,.58,1.25,.64,.58], [22.5,.58,1,.5],
+      [24,1,1,.5], [28,0,1,.5]
+    ] : [
       [0, 0, 1, .5],
       [1, .18, 1, .5],
       [3, .18, 1.32, .32, .20], // Card de emagrecimento.
@@ -211,4 +218,4 @@ document.getElementById('form').addEventListener('submit', e => {
   screen.addEventListener('load', build);
   document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',sync);
-})();
+});
