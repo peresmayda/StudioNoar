@@ -219,3 +219,25 @@ document.querySelectorAll('.duda-showroom').forEach(stage => {
   document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',sync);
 });
+
+// Camisas: pausa fora de tela, ao fechar, ou quando a pessoa toca na sequência.
+(() => {
+  const stage = document.querySelector('.fominha-shirts');
+  const dialog = stage.closest('dialog');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const first = stage.querySelector('img').cloneNode();
+  first.alt = ''; first.setAttribute('aria-hidden','true'); stage.append(first);
+  let visible = false, paused = false;
+  function sync() {
+    stage.classList.toggle('is-playing', dialog.open && visible && !paused && !document.hidden && !reduced.matches);
+    stage.setAttribute('aria-pressed', String(paused));
+    stage.setAttribute('aria-label', `${paused ? 'Retomar' : 'Pausar'} sequência das três camisas Fominha`);
+  }
+  function toggle() { paused = !paused; sync(); }
+  stage.addEventListener('click',toggle);
+  stage.addEventListener('keydown', event => { if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); toggle(); } });
+  new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); },{threshold:.15}).observe(stage);
+  new MutationObserver(sync).observe(dialog,{attributes:true,attributeFilter:['open']});
+  document.addEventListener('visibilitychange',sync);
+  reduced.addEventListener('change',sync);
+})();
