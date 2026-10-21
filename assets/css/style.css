@@ -322,8 +322,8 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
   /* projeto completo */
   .case-head h3,.case-meta,.case-text > div:first-child,.case-text > div:last-child{grid-column:1/-1}
   .case-text{row-gap:24px}
-  .gallery .pair{flex-direction:column}
-  .gallery .pair > :first-child,.gallery .pair > :last-child{flex:none;width:100%}
+  .gallery{gap:12px}
+  .gallery .pair{gap:8px}
   .project{min-height:auto}
   .project h3,.project .meta,.project .desc,.project .thumbs,.project .hero-img{grid-column:1/-1}
   .project header{row-gap:10px}
@@ -354,7 +354,7 @@ footer a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:
 .duda-details img{width:100%;height:auto;display:block}
 .duda-details figcaption{font-size:14px;line-height:1.4;margin-top:12px}
 .duda-visit{margin-block:16px 32px}
-@media(max-width:700px){.duda-details{grid-template-columns:1fr;gap:32px}}
+@media(max-width:700px){.duda-details{gap:8px;align-items:start}.duda-details figcaption{font-size:12px;margin-top:8px}}
 
 /* Camisas Fominha: cada aplicação entra sobre a anterior. */
 .fominha-shirts{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer;touch-action:pan-y}
