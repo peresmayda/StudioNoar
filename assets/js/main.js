@@ -149,29 +149,51 @@ document.getElementById('form').addEventListener('submit', e => {
   st.textContent = 'Abrimos o WhatsApp com a sua mensagem. É só apertar enviar por lá.';
 });
 
-// Aproximação sob demanda, sem loop nem movimento ao rolar.
+// Percorre a página e aproxima diferentes composições. Toque ou espaço pausa.
 (() => {
   const dialog = document.getElementById('proj-duda');
-  const button = dialog.querySelector('.duda-play');
-  const browser = dialog.querySelector('.duda-browser');
-  const screen = dialog.querySelector('.duda-viewport img');
+  const stage = dialog.querySelector('.duda-showroom');
+  const screen = stage.querySelector('img');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let animations = [];
-  function stop() {
-    animations.forEach(animation => animation.cancel());
-    animations = [];
-    button.textContent = 'Reproduzir aproximação';
+  let animation, visible = false, paused = false;
+  function build() {
+    animation?.cancel();
+    if (!screen.complete || !screen.naturalWidth) return;
+    const width = stage.clientWidth, height = stage.clientHeight;
+    const imageHeight = width * screen.naturalHeight / screen.naturalWidth;
+    // Cada parada é um centro de atenção da captura completa: abertura,
+    // objetivos, plano, apresentação, acompanhamento e fechamento.
+    const stops = [[0,1,.5],[0,1.14,.58],[0,1,.5],
+      [.20,1,.5],[.20,1.16,.54],[.20,1,.5],
+      [.35,1,.5],[.35,1.12,.5],[.35,1,.5],
+      [.46,1,.5],[.46,1.14,.64],[.46,1,.5],
+      [.66,1,.5],[.66,1.12,.52],[.66,1,.5],
+      [1,1,.5],[1,1.1,.5],[1,1,.5]];
+    const frames = stops.map(([progress, zoom, focus]) => {
+      const x = -width * (zoom - 1) * focus;
+      const y = -(imageHeight * zoom - height) * progress;
+      return {transform:`translate3d(${x}px, ${y}px, 0) scale(${zoom})`, easing:'cubic-bezier(.45,0,.2,1)'};
+    });
+    // Alternar evita um salto ao retornar ao início da captura.
+    animation = screen.animate(frames,{duration:42000,iterations:Infinity,direction:'alternate',fill:'both'});
+    sync();
   }
-  button.addEventListener('click', () => {
-    if (animations.length) { stop(); return; }
-    const options = {duration: reduced.matches ? 500 : 6500, easing:'cubic-bezier(.32,.72,0,1)', fill:'none'};
-    animations = reduced.matches
-      ? [browser.animate([{opacity: .65}, {opacity: 1}], options)]
-      : [browser.animate([{transform:'perspective(1400px) rotateX(5deg) rotateY(-7deg)'},{transform:'perspective(1400px) rotateX(0) rotateY(0) scale(1.08)',offset:.3},{transform:'perspective(1400px) rotateX(0) rotateY(0) scale(1.08)',offset:.8},{transform:'perspective(1400px) rotateX(5deg) rotateY(-7deg)'}],options), screen.animate([{transform:'translateY(0)'},{transform:'translateY(0)',offset:.25},{transform:'translateY(-38%)',offset:.75},{transform:'translateY(0)'}],options)];
-    button.textContent = 'Parar aproximação';
-    Promise.all(animations.map(animation => animation.finished)).then(stop).catch(() => {});
+  function sync() {
+    const active = dialog.open && visible && !document.hidden && !paused && !reduced.matches;
+    if (animation) active ? animation.play() : animation.pause();
+    if (reduced.matches && animation) animation.currentTime = 0;
+    stage.setAttribute('aria-pressed', String(paused));
+    stage.setAttribute('aria-label', paused ? 'Retomar apresentação animada do site' : 'Pausar apresentação animada do site');
+  }
+  function toggle() { paused = !paused; sync(); }
+  stage.addEventListener('click', toggle);
+  stage.addEventListener('keydown', event => {
+    if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); toggle(); }
   });
-  dialog.addEventListener('close', stop);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
-  reduced.addEventListener('change', stop);
+  new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); },{threshold:.2}).observe(stage);
+  new MutationObserver(() => { if (dialog.open) { paused = false; build(); } else { animation?.cancel(); animation = null; } }).observe(dialog,{attributes:true,attributeFilter:['open']});
+  new ResizeObserver(build).observe(stage);
+  screen.addEventListener('load', build);
+  document.addEventListener('visibilitychange',sync);
+  reduced.addEventListener('change',sync);
 })();
