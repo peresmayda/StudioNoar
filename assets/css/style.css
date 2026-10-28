@@ -228,6 +228,10 @@ body.lock{overflow:hidden}
 .gallery{display:grid;gap:var(--s-gap)}
 .gallery figure{margin:0;overflow:hidden;background:var(--stone)}
 .gallery img{display:block;width:100%;height:auto}
+.vento-gallery video{display:block;width:100%;height:auto;background:#000}
+.vento-copy{max-width:74ch;margin:clamp(16px,4vw,56px) auto;font-size:var(--t-lead);line-height:1.35;letter-spacing:-.025em}
+.vento-copy p+p{margin-top:1.25em}
+.vento-credit{margin-top:var(--s-head);max-width:65ch}
 .gallery .pair{display:flex;gap:var(--s-gap);align-items:flex-start}
 .gallery .pair > :first-child{flex:var(--a) 1 0;min-width:0}
 .gallery .pair > :last-child{flex:var(--b) 1 0;min-width:0}

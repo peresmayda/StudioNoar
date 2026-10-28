@@ -133,6 +133,37 @@ document.querySelectorAll('.pdialog').forEach(d => {
 });
 
 // Formulário: monta a mensagem e abre uma conversa no WhatsApp do estúdio
+// Vento: carrega vídeos perto da área visível e pausa ao sair ou fechar.
+(() => {
+  const dialog = document.getElementById('proj-vento');
+  if (!dialog) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const videos = [...dialog.querySelectorAll('.vento-motion')];
+  const visible = new Set();
+  function sync() {
+    videos.forEach(video => {
+      const active = dialog.open && visible.has(video) && !document.hidden;
+      if (active && !video.src) { video.src = video.dataset.src; video.load(); }
+      if (active && !reduced.matches && video.dataset.userPaused !== 'true') {
+        video.dataset.autoPlaying = 'true';
+        video.play().catch(() => {});
+      } else { video.dataset.autoPlaying = ''; video.pause(); }
+    });
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(({target, isIntersecting}) => isIntersecting ? visible.add(target) : visible.delete(target));
+    sync();
+  }, {root:dialog, threshold:.15});
+  videos.forEach(video => {
+    observer.observe(video);
+    video.addEventListener('pause', () => { if (video.dataset.autoPlaying === 'true' && dialog.open && visible.has(video)) video.dataset.userPaused = 'true'; });
+    video.addEventListener('play', () => { video.dataset.userPaused = ''; });
+  });
+  new MutationObserver(sync).observe(dialog, {attributes:true, attributeFilter:['open']});
+  document.addEventListener('visibilitychange', sync);
+  reduced.addEventListener('change', sync);
+})();
+
 document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target, st = f.querySelector('.status');
