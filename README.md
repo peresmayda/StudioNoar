@@ -50,7 +50,7 @@ Os ícones, o `robots.txt` e o `sitemap.xml` ficam na raiz porque é lá que nav
 
 ### Projeto Vento Audio
 
-A galeria `proj-vento` segue a sequência da [publicação no Behance](https://www.behance.net/gallery/257640401/Vento-Audio-Brand-Identity): apresentação, contexto, logo, embalagem/tablet, construção do logo, composições, boné, palheta/credencial, chaveiro, texto da ferramenta, demonstração dos gradientes, gradientes animados, músico/tipografia, stories, Instagram, capas de sessions, camisetas, embalagem/cabo, boné/cartaz e logo na pedra.
+A apresentação `proj-vento` usa o mesmo cabeçalho dos outros projetos, com contexto do negócio, Desafio e Solução no topo. A galeria preserva a sequência visual da [publicação no Behance](https://www.behance.net/gallery/257640401/Vento-Audio-Brand-Identity), sem textos entre as peças: apresentação, logo, embalagem/tablet, construção do logo, composições, boné, palheta/credencial, chaveiro, demonstração dos gradientes, gradientes animados, músico/tipografia, stories, Instagram, capas de sessions, camisetas, embalagem/cabo, boné/cartaz e logo na pedra.
 
 Os arquivos numerados de `01` a `18` ficam em `assets/img/projetos/vento/`. Imagens estáticas em WebP; GIFs convertidos para MP4 H.264 com pôster em WebP. Vídeos carregam quando entram na área visível do projeto e pausam ao sair, fechar a galeria ou ocultar a página. Com movimento reduzido, a reprodução é manual pelos controles.
 
