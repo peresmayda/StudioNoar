@@ -48,6 +48,10 @@ Os ícones, o `robots.txt` e o `sitemap.xml` ficam na raiz porque é lá que nav
 
 ## Antes de publicar
 
+### Projeto WDM Marcenaria
+
+O projeto `proj-wdm` apresenta a marcenaria e os blocos Desafio e Solução no topo, com base na estratégia fornecida. A galeria inclui as 20 peças do ZIP: marca e conceito visual, aplicações em ambientes e papelaria, orçamentos e redes sociais. Imagens em WebP e seis vídeos MP4, com reprodução sob demanda e pausa fora da tela e ao fechar o projeto. Não foi atribuído um ano ao projeto, pois essa informação não foi fornecida.
+
 ### Projeto Vento Audio
 
 A apresentação `proj-vento` usa o mesmo cabeçalho dos outros projetos, com contexto do negócio, Desafio e Solução no topo. A galeria preserva a sequência visual da [publicação no Behance](https://www.behance.net/gallery/257640401/Vento-Audio-Brand-Identity), sem textos entre as peças: apresentação, logo, embalagem/tablet, construção do logo, composições, boné, palheta/credencial, chaveiro, demonstração dos gradientes, gradientes animados, músico/tipografia, stories, Instagram, capas de sessions, camisetas, embalagem/cabo, boné/cartaz e logo na pedra.

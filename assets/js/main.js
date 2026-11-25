@@ -133,12 +133,11 @@ document.querySelectorAll('.pdialog').forEach(d => {
 });
 
 // Formulário: monta a mensagem e abre uma conversa no WhatsApp do estúdio
-// Vento: carrega vídeos perto da área visível e pausa ao sair ou fechar.
-(() => {
-  const dialog = document.getElementById('proj-vento');
-  if (!dialog) return;
+// Galerias: carrega vídeos na área visível e pausa ao sair ou fechar.
+document.querySelectorAll('.pdialog').forEach(dialog => {
+  const videos = [...dialog.querySelectorAll('.vento-motion, .project-motion')];
+  if (!videos.length) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const videos = [...dialog.querySelectorAll('.vento-motion')];
   const visible = new Set();
   function sync() {
     videos.forEach(video => {
@@ -162,7 +161,7 @@ document.querySelectorAll('.pdialog').forEach(d => {
   new MutationObserver(sync).observe(dialog, {attributes:true, attributeFilter:['open']});
   document.addEventListener('visibilitychange', sync);
   reduced.addEventListener('change', sync);
-})();
+});
 
 document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();
